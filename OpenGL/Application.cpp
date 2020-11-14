@@ -16,7 +16,7 @@ static unsigned int ComplieShader(unsigned int type, const std::string& source)
     {
         int length;
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-        char* message = (char*)_malloca(length * sizeof(char));
+        char* message = (char*)alloca(length * sizeof(char));
         glGetShaderInfoLog(id, length, &length, message);
         std::cout << "Failed to compile " <<
             (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment") << 
@@ -39,7 +39,7 @@ static unsigned int CreateShader(const std::string& vertexShader, const std::str
     unsigned int fs = ComplieShader(GL_FRAGMENT_SHADER, fragmentShader);
 
     glAttachShader(program, vs);
-    glAttachShader(program, vs);
+    glAttachShader(program, fs);
     glLinkProgram(program);
     glValidateProgram(program);
 
@@ -118,9 +118,11 @@ int main(void)
         "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
         "}\n";
 
+
     unsigned int shader = CreateShader(vertexShader, fragmentShader);
 
     glUseProgram(shader);
+
 
 
 
